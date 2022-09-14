@@ -6,7 +6,12 @@ class Server {
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath='/api/usuarios';
+
+        this.paths = {
+            usuariosPath: '/api/usuarios',
+            authPath: '/api/auth',
+            categoryPath: '/api/categorias'
+        }
         this.conectarDb();
         //Middlewares
 
@@ -24,13 +29,15 @@ class Server {
         this.app.use(express.static('public'));
     }
 
-    conectarDb=async()=>{
+    conectarDb = async () => {
         await dbConnection();
     }
 
     routes = () => {
 
-        this.app.use(this.usuariosPath,require('../routes/user'));
+        this.app.use(this.paths.authPath, require('../routes/auth'));
+        this.app.use(this.paths.usuariosPath, require('../routes/user'));
+        this.app.use(this.paths.categoryPath, require('../routes/category'));
 
     }
 

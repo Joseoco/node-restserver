@@ -27,8 +27,17 @@ const idExiste=async(id='')=>{
 
 }
 
+const emailExisteAuth=async(correo='')=>{
+    emailExisteEnBd=await Usuario.findOne({correo});
+    if(!emailExisteEnBd){
+        throw new Error(`El correo ${correo} no existe en la base de datos`);
+    }
+
+}
+
 module.exports={
     esRolValido,
     emailExiste,
-    idExiste
+    idExiste,
+    emailExisteAuth
 }

@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { usuariosGet, usuariosPut, usuariosPost, usuariosDelete, usuariosPatch } = require('../controllers/userController');
 const { esRolValido, emailExiste ,idExiste} = require('../helpers/db-validators');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validaJWT } = require('../middlewares/validar-jwt');
 
 
 const router = Router();
@@ -28,6 +29,7 @@ router.post('/',[
 ], usuariosPost);//segundo param es un middlelware de express-validator
 
 router.delete('/:id',[
+    validaJWT,
     check('id','No es un ID valido').isMongoId(),
     check('id').custom(idExiste),
     validarCampos
